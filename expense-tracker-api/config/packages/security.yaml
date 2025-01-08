@@ -1,0 +1,35 @@
+# config/packages/security.yaml
+security:
+    # enable_authenticator_manager: true
+    # ...
+    password_hashers:
+        # Use native password hasher, which auto-selects and migrates the best
+        # possible hashing algorithm (which currently is "bcrypt")
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: telephone
+    firewalls:
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
+    access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # - { path: ^/api/v1/administrations,      roles: ROLE_ADMIN  }
+        # - { path: ^/api/v1/users,       roles: ROLE_ADMIN  }
+        # - { path: ^/api/v1/partenaires,       roles: ROLE_ADMIN  }
+        - { path: ^/api/v1/users/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1, roles: IS_AUTHENTICATED_FULLY }
+        
+        
