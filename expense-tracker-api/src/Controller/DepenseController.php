@@ -115,7 +115,6 @@ class DepenseController extends AbstractController
         $depense->setMontant($response['montant'] ?? $depense->getMontant())
             ->setDescription($response['description'] ?? $depense->getDescription())
             ->setCategories($response['categories'] ?? $depense->getCategories())
-            ->setDate($response['date'] ?? $depense->getDate())
             ->setUpdatedAt(new \DateTimeImmutable());
 
         $errors = $validator->validate($depense);
@@ -126,7 +125,7 @@ class DepenseController extends AbstractController
 
         $this->entityManager->flush();
 
-        $response = $this->serializer->serialize($depense, 'json', ['groups' => 'depense']);
+        $response = $this->serializer->serialize($depense, 'json', ['groups' => 'depense_show']);
         // return $this->json($response, Response::HTTP_OK);
         return new JsonResponse($response, Response::HTTP_OK, [], true);
     }

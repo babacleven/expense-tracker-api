@@ -94,10 +94,6 @@ class UserController extends AbstractController
             $hashedPassword = $passwordHasher->hashPassword($user, $data['password']);
             $user->setPassword($hashedPassword);
         }
-        // Set related entities if necessary
-        // Example: $user->setIdPartenaires($data['id_partenaire'] ?? null);
-        // Example: $user->setIdSite($data['id_site'] ?? null);
-
         $errors = $validator->validate($user);
         if (count($errors) > 0) {
             return $this->json($errors, Response::HTTP_BAD_REQUEST);

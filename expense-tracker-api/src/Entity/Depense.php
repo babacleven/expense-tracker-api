@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\DepenseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\DepenseRepository;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: DepenseRepository::class)]
 class Depense
@@ -12,21 +13,28 @@ class Depense
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["depense_show"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["depense_show"])]
+
     private ?string $montant = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["depense_show"])]
     private ?string $categories = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(["depense_show"])]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'id_user')]
+    #[Groups(["depense_show", "user"])]
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["depense_show"])]
     private ?string $description = null;
 
     #[ORM\Column]
